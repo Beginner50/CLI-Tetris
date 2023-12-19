@@ -1,0 +1,29 @@
+==================
+Console Tetris
+==================
+
+1) Defining the board and IO
+- The board and pieces which can be manipulated are meant to be separate entities.
+- Hence, the game (board + pieces) are to be generated procedurally.
+- This is achieved by storing an identical board for IO only and as long as pieces
+  can be manipulated, they are mapped onto the IO board only.
+- Only when they can no longer move / land on ground are they mapped on the primary
+  board
+- For each IO iteration, the IO board is copied from the primary board and the pieces
+  mapped onto it.
+- The borders of the IO board are separate from the board itself
+
+2) Pieces
+- There are 7 different types of pieces: Square, I, L, L-Mirrored, N, N-Mirrored, T
+- Each piece has 4 possible rotations.
+- A pieces class can be defined to store all possible combinations of a piece and can
+  be referred by the board to select a piece
+- Each and every rotation of a piece is stored as a 5x5 matrix
+
+3) Interaction between piece and board
+- A virtual coordinate system is required to map a piece onto the board since it exists separately
+  from the latter.
+- To prevent pieces from phasing through walls and other obstacles, the movement of a piece
+  is first validated before getting mapped onto the board.
+- A movement is valid only when there is no collision between the solid cells of a piece and that
+  of the board.
