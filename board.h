@@ -9,7 +9,6 @@ class Board
 public:
     Board(Pieces* pieces);
     Board(Board& board);
-    Board& operator=(Board& board) = delete;
     ~Board();
 
     void InitBoard();
@@ -21,18 +20,15 @@ public:
     void StorePiece(int pType, int pRotation, int bX, int bY);
     bool IsPossibleMovement(int pType, int pRotation, int bX, int bY);
 
-    // Position of Piece on board
-    int m_pX{ };
-    int m_pY{ };
+    void DeletePossibleLines();
+    void DeleteLine(int bX);
 
-    // Current and Next Pieces
-    int m_pType{};
-    int m_pRotation{};
+    bool IsGameOver();
 
-    int m_pTypeNext{};
-    int m_pRotationNext{};
-private:
     enum { CELL_EMPTY, CELL_FILLED };
     int m_board[BOARD_LENGTH][BOARD_WIDTH];
+private:
     Pieces* m_pieces{ nullptr };
+
+    Board& operator=(Board& board);
 };

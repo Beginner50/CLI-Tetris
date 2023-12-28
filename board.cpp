@@ -1,31 +1,14 @@
 #include "board.h"
-#include <iostream>
 
 Board::Board(Pieces* pieces)
 {
     m_pieces = pieces;
-
-    m_pType = 1;
-    m_pRotation = 3;
-
-    m_pX = m_pieces->GetXPieceInitial(m_pType, m_pRotation);
-    m_pY = (BOARD_WIDTH / 2) + m_pieces->GetYPieceInitial(m_pType, m_pRotation);
-
     InitBoard();
 }
 
 Board::Board(Board& board)
 {
     this->m_pieces = board.m_pieces;
-
-    this->m_pX = board.m_pX;
-    this->m_pY = board.m_pY;
-
-    this->m_pType = board.m_pType;
-    this->m_pRotation = board.m_pRotation;
-
-    this->m_pTypeNext = board.m_pTypeNext;
-    this->m_pRotationNext = board.m_pRotationNext;
 
     for (int bX{}; bX < BOARD_LENGTH; ++bX)
         for (int bY{}; bY < BOARD_WIDTH; ++bY)
@@ -81,4 +64,46 @@ bool Board::IsPossibleMovement(int pType, int pRotation, int bX, int bY)
                     return false;
         }
     return true;
+}
+
+void Board::DeleteLine(int BX)
+{
+    for (int bY{ }; bY < BOARD_WIDTH; ++bY)
+        for (int bX{ BX - 1 }; bX > 0; --bX)
+            m_board[bX + 1][bY] = m_board[bX][bY];
+}
+
+void Board::DeletePossibleLines()
+{
+    bool isPrevBlockEmpty{ true };
+
+    for (int bX{ BOARD_LENGTH - 1 }; bX > 0; --bX)
+    {
+        for (int bY{}; bY < BOARD_WIDTH; ++bY)
+        {
+            if (isPrevBlockEmpty && !IsEmptyCell(bX, bY))
+                isPrevBlockEmpty = false;
+            else if (!isPrevBlockEmpty && IsEmptyCell(bX, bY))
+            {
+                isPrevBlockEmpty = true;
+                bY = BOARD_WIDTH;
+            }
+            if (bY == BOARD_WIDTH - 1 && !IsEmptyCell(bX, bY))
+            {
+                DeleteLine(bX);
+                ++bX;
+            }
+        }
+        if (isPrevBlockEmpty)
+            break;
+    }
+}
+
+
+bool Board::IsGameOver()
+{
+    for (int j{}; j < BOARD_WIDTH; ++j)
+        if (!IsEmptyCell(0, j))
+            return true;
+    return false;
 }

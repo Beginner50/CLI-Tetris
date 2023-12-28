@@ -27,3 +27,11 @@ Console Tetris
   is first validated before getting mapped onto the board.
 - A movement is valid only when there is no collision between the solid cells of a piece and that
   of the board.
+
+Game Logic:
+After defining the board, pieces and their interaction with one another, we can start discussing the
+game logic.
+- When the board is first instantiated (not copied from an existing board), it requests 2 random
+  pieces from a Game class (not the Pieces class as classes should be specific in their behavior)
+- The game class will consist of the board, pieces and IO classes and also keep track of the pieces'
+  types, rotations and coordinates. This ensures that the board remains modular.
