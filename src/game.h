@@ -16,6 +16,7 @@ public:
     ~Game();
 
     void GetNewPiece();
+    void TranslateActionToPieceMovement(char key);
 
     int m_pType{};
     int m_pRotation{};
@@ -34,6 +35,12 @@ private:
     std::mt19937 mt{ std::random_device{}() };
     std::uniform_int_distribution<> rand7{ 0,6 };
     std::uniform_int_distribution<> rand4{ 0,3 };
+
+    static constexpr char KEY_LEFT{ 'a' };
+    static constexpr char KEY_RIGHT{ 'd' };
+    static constexpr char KEY_DOWN{ 's' };
+    static constexpr char KEY_NEXT_ROTATION{ 'n' };
+    static constexpr char KEY_DROP_PIECE{ 'x' };
 
     Game(const Game& game);
     Game& operator=(const Game& game);
